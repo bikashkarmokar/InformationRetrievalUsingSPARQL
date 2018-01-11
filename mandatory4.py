@@ -33,35 +33,77 @@ sparql.setReturnFormat(JSON)
 results = sparql.query().convert()
 
 # Create HTML output
-print '<html><head><title>Ranking of actors according to the amount of awards received</title></head>'
+with open('mandatory4.html', 'w') as myFile:
+    myFile.write('<html>')
+    myFile.write('<head>')
+    myFile.write('<link rel="stylesheet" href="stylesheet.css">')
+    myFile.write('</head>')
+    myFile.write('<body>')
 
-print '<ul>'
+    # myFile.write('<table border="1">')
+    myFile.write('<table>')
 
-rank=0
-tmp=0
+    myFile.write('<tr>')
+    myFile.write(
+        '<td colspan="4" style="background-color:gray;text-align:center;padding:2px;"><h1>KESW Home Project</h1>'
+        '</br><h4>Bikash Chandra Karmokar</h4></td>')
+    myFile.write('</tr>')
 
-for result in results["results"]["bindings"]:
-    if ("actor" in result):
-        # Create Wikipedia Link
-        url = result["actor"]["value"].encode('ascii', 'ignore')
-    else:
-        url = 'NONE'
-    if ("actorLabel" in result):
-        actorLabel = result["actorLabel"]["value"].encode('ascii', 'ignore')
-    else:
-        actorLabel = 'NONE'
-    if ("awardsNumber" in result):
-        awardsNumber = result["awardsNumber"]["value"].encode('ascii', 'ignore')
-    else:
-        awardsNumber = 'NONE'
+    myFile.write('<tr>')
+    myFile.write('<td colspan="4" style="background-color:gray;text-align:center;padding:2px;">Collected from wikidata.</td>')
+    myFile.write('</tr>')
 
-    if (tmp==awardsNumber):
-        rank= rank
-    else:
-        rank=rank+1
-        tmp=awardsNumber
+    myFile.write('<tr>')
 
-    print url, actorLabel, awardsNumber, rank
+    myFile.write('<td class=tableheader>Actor</td>')
+    myFile.write('<td class=tableheader> ActorName</td>')
+    myFile.write('<td class=tableheader>AwardNumbers</td>')
+    myFile.write('<td class=tableheader>Rank</td>')
 
-print '</ul>'
-print '</body></html>'
+
+
+    myFile.write('</tr>')
+
+    rank=0
+    tmp=0
+
+    for result in results["results"]["bindings"]:
+        if ("actor" in result):
+            # Create Wikipedia Link
+            url = result["actor"]["value"].encode('ascii', 'ignore')
+        else:
+            url = 'NONE'
+        if ("actorLabel" in result):
+            actorLabel = result["actorLabel"]["value"].encode('ascii', 'ignore')
+        else:
+            actorLabel = 'NONE'
+        if ("awardsNumber" in result):
+            awardsNumber = result["awardsNumber"]["value"].encode('ascii', 'ignore')
+        else:
+            awardsNumber = 'NONE'
+
+        if (tmp==awardsNumber):
+            rank= rank
+        else:
+            rank=rank+1
+            tmp=awardsNumber
+
+
+        myFile.write('<tr>')
+
+        myFile.write('<td>%s</td>' % (url))
+        myFile.write('<td>%s</td>' % (actorLabel))
+        myFile.write('<td>%s</td>' % (awardsNumber))
+        myFile.write('<td>%s</td>' % (rank))
+
+
+
+        myFile.write('</tr>')
+
+
+
+    myFile.write('</table >')
+    myFile.write('</body>')
+    myFile.write('</html>')
+
+print '\nPlease check the mandatory4.html file in the project folder for the result.'

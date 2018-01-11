@@ -1,0 +1,50 @@
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+select distinct (count(?actor) as ?b)  
+where {
+       ?actor wdt:P106 wd:Q33999 .
+       ?actor wdt:P1953 ?discogsId
+  	  
+      }
+
+
+
+select ?actor 
+        where
+        {
+          ?actor wdt:P106 wd:Q33999 . 
+        }
+          
+select ?myocardialDeath 
+        where
+        {
+          ?myocardialDeath wdt:P509 wd:Q12152 . 
+        }
+
+
+
+PREFIX wdt: <http://www.wikidata.org/prop/direct/>
+PREFIX wd: <http://www.wikidata.org/entity/>
+select (count(?actor) as ?b)  
+where {
+       ?actor wdt:P106 wd:Q33999 .        
+  	  
+      }
+
+
+
+select distinct 
+#?actor ?actorName ?actorBirthDate ?actorBirthPlace 
+#?actorDeathDate ?actorDeathCause ?starred  ?wikiActor 
+#?awardName  
+?actorName ?wikiActor ?imdb
+where 
+{  
+  service <http://dbpedia.org/sparql> 
+  {
+    ?actor rdf:type <http://umbel.org/umbel/rc/Actor> .
+    ?actor rdfs:label ?actorName .  
+   
+  }      
+  #?wikiActor wdt:P345 ?imdb
+}
